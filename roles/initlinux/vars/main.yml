@@ -1,0 +1,9 @@
+---
+# vars file for initlinux
+
+# 时间服务器地址
+NTP_SERVICE:
+ -  0.centos.pool.ntp.org iburst
+ -  1.centos.pool.ntp.org iburst
+ -  2.centos.pool.ntp.org iburst
+ -  3.centos.pool.ntp.org iburst

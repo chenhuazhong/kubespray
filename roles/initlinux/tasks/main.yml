@@ -1,0 +1,65 @@
+---
+# tasks file for initlinux
+# 复制 阿里云 软件源
+- name: copy repo
+  copy:
+    dest: /etc/yum.repos.d/CentOS-Base.repo
+    src: ./files/CentOS-Base.repo
+
+- name: stop firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: false
+
+- name: stop NetworkManager
+  service:
+    name: NetworkManager
+    state: stopped
+    enabled: false
+
+- name: isntall wget vim chrony net-tools
+  yum:
+    name: ["wget","vim","chrony","net-tools"]
+
+- name: set chronyd config
+  template:
+    dest: /etc/chrony.conf
+    src: chrony.j2
+
+# 启动 同步时间服务
+- name: start chronyd
+  service:
+    name: chronyd
+    state: started
+    enabled: true
+
+- name: check chronyc
+  command: chronyc sources | grep "^\^\*"
+
+
+# 设置 selinux 为兼容模式
+- name: copy selinux
+  copy:
+    dest: /etc/selinux/config
+    src: ./files/selinux.conf
+
+# 临时设置 selinux
+- name: setenforce
+  command: setenforce 0
+
+# 复制 内核源文件
+- name: copy kernel
+  copy:
+    dest: /root/kernel-lt-5.4.131-1.el7.elrepo.x86_64.rpm
+    src: ./files/kernel-lt-5.4.131-1.el7.elrepo.x86_64.rpm
+
+# 安装 内核
+- name: install kernel-lt-5.4.131-1.el7.elrepo.x86_64.rpm
+  yum:
+    name: /root/kernel-lt-5.4.131-1.el7.elrepo.x86_64.rpm
+    state: present
+
+# 设置开机 内核启动顺序
+- name: grub2-set-default
+  command: grub2-set-default 'CentOS Linux (5.4.131-1.el7.elrepo.x86_64) 7 (Core)'

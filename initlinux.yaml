@@ -1,0 +1,12 @@
+---
+- name: init linux
+  hosts: all
+  roles:
+    - initlinux
+
+# 需要重启才能生效
+- name: reboot
+  hosts: all
+  tasks:
+    - name: reboot
+      reboot:

@@ -1,5 +1,13 @@
 # Deploy a Production Ready Kubernetes Cluster
 
+环境:
+  * 系统：linux centos7 5.4.131-1.el7.elrepo.x86_64 #1 SMP Sun Jul 11 08:52:19 EDT 2021 x86_64 x86_64 x86_64 GNU/Linux
+  * python: python3.6.8
+  * pip: pip 21.1.3 from /usr/local/lib/python3.6/site-packages/pip (python 3.6)
+  * ansible: 2.9.20
+  * 阿里云软件源
+
+
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 
 If you have questions, check the documentation at [kubespray.io](https://kubespray.io) and join us on the [kubernetes slack](https://kubernetes.slack.com), channel **\#kubespray**.
@@ -20,6 +28,10 @@ To deploy the cluster you can use :
 #### Usage
 
 ```ShellSession
+建议在非安装 k8s的主机中 执行
+# 安装 python3
+yum install python3 -y
+
 # Install dependencies from ``requirements.txt``
 sudo pip3 install -r requirements.txt
 
@@ -33,6 +45,9 @@ CONFIG_FILE=inventory/mycluster/hosts.yaml python3 contrib/inventory_builder/inv
 # Review and change parameters under ``inventory/mycluster/group_vars``
 cat inventory/mycluster/group_vars/all/all.yml
 cat inventory/mycluster/group_vars/k8s_cluster/k8s_cluster.yml
+
+# 执行 初始化 环境
+ansible-playbook -i inventory/mycluster/hosts.yaml  initlinux.yaml
 
 # Deploy Kubespray with Ansible Playbook - run the playbook as root
 # The option `--become` is required, as for example writing SSL keys in /etc/,
@@ -242,3 +257,13 @@ See also [Network checker](docs/netcheck.md).
 CI/end-to-end tests sponsored by: [CNCF](https://cncf.io), [Packet](https://www.packet.com/), [OVHcloud](https://www.ovhcloud.com/), [ELASTX](https://elastx.se/).
 
 See the [test matrix](docs/test_cases.md) for details.
+
+
+*升级 pip 方法*  
+
+```python -m pip install -U pip```
+
+centos7内核升级 参考
+http://elrepo.org/tiki/HomePage
+https://elrepo.org/linux/kernel/el7/x86_64/RPMS/
+需要把内核升级到 5.4.*

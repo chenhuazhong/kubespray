@@ -61,9 +61,9 @@ kube_image_repo: "registry.cn-hangzhou.aliyuncs.com/localkube"
 
 # docker image repo define
 docker_image_repo: "docker.io"
-
 # quay image repo define
-quay_image_repo: "quay.io"
+#quay_image_repo: "quay.io"
+quay_image_repo: "registry.cn-hangzhou.aliyuncs.com/localkube"
 
 # TODO(mattymo): Move calico versions to roles/network_plugins/calico/defaults
 # after migration to container download
@@ -97,9 +97,12 @@ crictl_supported_versions:
 crictl_version: "{{ crictl_supported_versions[kube_major_version] }}"
 
 # Download URLs
-kubelet_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubelet"
-kubectl_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubectl"
-kubeadm_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
+#kubelet_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubelet"
+kubelet_download_url: "http://192.168.179.128:8080/kubelet-v1.20.7-amd64"
+#kubectl_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kube_version }}/bin/linux/{{ image_arch }}/kubectl"
+kubectl_download_url: "http://192.168.179.128:8080/kubectl-v1.20.7-amd64"
+#kubeadm_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
+kubeadm_download_url: "http://192.168.179.128:8080/kubeadm-v1.20.7-amd64"
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
 cni_download_url: "https://github.com/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
 calicoctl_download_url: "https://github.com/projectcalico/calicoctl/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
@@ -432,9 +435,9 @@ krew_archive_checksum: "{{ krew_archive_checksums[krew_version] }}"
 # Also provide the address of your own private registry.
 # And use --insecure-registry options for docker
 kube_proxy_image_repo: "{{ kube_image_repo }}/kube-proxy"
-etcd_image_repo: "{{ quay_image_repo }}/coreos/etcd"
+etcd_image_repo: "{{ quay_image_repo }}/etcd"
 etcd_image_tag: "{{ etcd_version }}{%- if image_arch != 'amd64' -%}-{{ image_arch }}{%- endif -%}"
-flannel_image_repo: "{{ quay_image_repo }}/coreos/flannel"
+flannel_image_repo: "{{ quay_image_repo }}/flannel"
 flannel_image_tag: "{{ flannel_version }}-{{ image_arch }}"
 calico_node_image_repo: "{{ quay_image_repo }}/calico/node"
 calico_node_image_tag: "{{ calico_version }}{%- if image_arch != 'amd64' -%}-{{ image_arch }}{%- endif -%}"

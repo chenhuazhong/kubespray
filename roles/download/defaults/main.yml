@@ -56,7 +56,8 @@ kata_containers_version: 1.12.1
 
 # gcr and kubernetes image repo define
 gcr_image_repo: "gcr.io"
-kube_image_repo: "k8s.gcr.io"
+#kube_image_repo: "k8s.gcr.io"
+kube_image_repo: "registry.cn-hangzhou.aliyuncs.com/localkube"
 
 # docker image repo define
 docker_image_repo: "docker.io"
@@ -493,15 +494,17 @@ haproxy_image_tag: 2.3
 coredns_image_is_namespaced: "{{ (kube_major_version | regex_replace('^v', '') | float) >= 1.21 }}"
 
 coredns_version: "v1.7.0"
-coredns_image_repo: "{{ kube_image_repo }}{{'/coredns/coredns' if (coredns_image_is_namespaced | bool) else '/coredns' }}"
+coredns_image_repo: "{{ kube_image_repo }}{{'/coredns' if (coredns_image_is_namespaced | bool) else '/coredns' }}"
 coredns_image_tag: "{{ coredns_version if (coredns_image_is_namespaced | bool) else (coredns_version | regex_replace('^v', '')) }}"
 
 nodelocaldns_version: "1.17.1"
-nodelocaldns_image_repo: "{{ kube_image_repo }}/dns/k8s-dns-node-cache"
+nodelocaldns_image_repo: "{{ kube_image_repo }}/k8s-dns-node-cache"
 nodelocaldns_image_tag: "{{ nodelocaldns_version }}"
 
 dnsautoscaler_version: 1.8.3
-dnsautoscaler_image_repo: "{{ kube_image_repo }}/cpa/cluster-proportional-autoscaler-{{ image_arch }}"
+#dnsautoscaler_version: 1.7.1  # hub.docker 罪行的版本是1.7.1
+dnsautoscaler_image_repo: "{{ kube_image_repo }}/cluster-proportional-autoscaler-{{ image_arch }}"
+#dnsautoscaler_image_repo: "mirrorgooglecontainers/cluster-proportional-autoscaler-arm64"  # hub.docker 的源
 dnsautoscaler_image_tag: "{{ dnsautoscaler_version }}"
 
 registry_image_repo: "{{ docker_image_repo }}/library/registry"
@@ -626,7 +629,8 @@ downloads:
     version: "{{ cni_version }}"
     dest: "{{ local_release_dir }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
     sha256: "{{ cni_binary_checksum }}"
-    url: "{{ cni_download_url }}"
+#    url: "{{ cni_download_url }}"
+    url: "http://192.168.179.128:8080/cni-plugins-linux-amd64-v0.9.1.tgz"
     unarchive: false
     owner: "root"
     mode: "0755"
@@ -775,7 +779,8 @@ downloads:
     version: "{{ calico_ctl_version }}"
     dest: "{{ local_release_dir }}/calicoctl"
     sha256: "{{ calicoctl_binary_checksum }}"
-    url: "{{ calicoctl_download_url }}"
+#    url: "{{ calicoctl_download_url }}"
+    url: "http://192.168.179.128:8080/calicoctl"
     unarchive: false
     owner: "root"
     mode: "0755"
@@ -824,7 +829,8 @@ downloads:
     version: "{{ calico_version }}"
     dest: "{{ local_release_dir }}/calico-{{ calico_version }}-kdd-crds/{{ calico_version }}.tar.gz"
     sha256: "{{ calico_crds_archive_checksum }}"
-    url: "{{ calico_crds_download_url }}"
+#    url: "{{ calico_crds_download_url }}"
+    url: "http://192.168.179.128:8080/v3.17.4.tar.gz"
     unarchive: true
     unarchive_extra_opts:
     - "--strip=6"

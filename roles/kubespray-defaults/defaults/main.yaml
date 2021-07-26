@@ -144,14 +144,14 @@ kube_log_level: 2
 
 # Choose network plugin (cilium, calico, weave or flannel)
 # Can also be set to 'cloud', which lets the cloud provider setup appropriate routing
-kube_network_plugin: calico
+kube_network_plugin: flannel
 kube_network_plugin_multus: false
 
 # Determines if calico_rr group exists
 peer_with_calico_rr: "{{ 'calico_rr' in groups and groups['calico_rr']|length > 0 }}"
 
 # Choose data store type for calico: "etcd" or "kdd" (kubernetes datastore)
-calico_datastore: "kdd"
+#calico_datastore: "kdd"
 
 # Kubernetes internal network for services, unused block of space.
 kube_service_addresses: 10.233.0.0/18

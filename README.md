@@ -267,3 +267,10 @@ centos7内核升级 参考
 http://elrepo.org/tiki/HomePage
 https://elrepo.org/linux/kernel/el7/x86_64/RPMS/
 需要把内核升级到 5.4.*
+
+
+
+python 开启文件服务器  安装过程中下载可执行文件
+````
+python -m http.server 8080
+````

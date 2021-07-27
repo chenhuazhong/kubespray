@@ -476,7 +476,8 @@ cilium_hubble_ui_backend_image_repo: "{{ quay_image_repo }}/cilium/hubble-ui-bac
 cilium_hubble_ui_backend_image_tag: "v0.7.3"
 cilium_hubble_envoy_image_repo: "{{ docker_image_repo }}/envoyproxy/envoy"
 cilium_hubble_envoy_image_tag: "v1.14.5"
-kube_ovn_container_image_repo: "{{ docker_image_repo }}/kubeovn/kube-ovn"
+#kube_ovn_container_image_repo: "{{ docker_image_repo }}/kubeovn/kube-ovn"
+kube_ovn_container_image_repo: "{{ kube_image_repo }}/kube-ovn"
 kube_ovn_container_image_tag: "{{ kube_ovn_version }}"
 kube_router_image_repo: "{{ docker_image_repo }}/cloudnativelabs/kube-router"
 kube_router_image_tag: "{{ kube_router_version }}"
@@ -487,7 +488,8 @@ ovn4nfv_ovn_image_tag: "{{ ovn4nfv_ovn_image_version }}"
 ovn4nfv_k8s_plugin_image_repo: "{{ docker_image_repo }}/integratedcloudnative/ovn4nfv-k8s-plugin"
 ovn4nfv_k8s_plugin_image_tag: "{{ ovn4nfv_k8s_plugin_image_version }}"
 
-nginx_image_repo: "{{ docker_image_repo }}/library/nginx"
+#nginx_image_repo: "{{ docker_image_repo }}/library/nginx"
+nginx_image_repo: "{{ kube_image_repo }}/nginx"
 nginx_image_tag: 1.19
 haproxy_image_repo: "{{ docker_image_repo }}/library/haproxy"
 haproxy_image_tag: 2.3

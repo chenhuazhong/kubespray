@@ -1,4 +1,35 @@
 ---
+- name: debug
+  debug:
+    msg: "/data/{{ download.dest.split('/')[-1] }}"
+
+- name: Register file
+  stat:
+    path: "/data/{{ download.dest.split('/')[-1] }}"
+  delegate_to: localhost
+  register: file_path
+
+
+- block:
+  - name: download_file | Starting copy of file
+    debug:
+      msg: "{{ download.url }}"
+    run_once: "{{ download_run_once }}"
+
+  - name: download_file | Create dest directory on node
+    file:
+      path: "{{ download.dest | dirname }}"
+      owner: "{{ download.owner | default(omit) }}"
+      mode: 0755
+      state: directory
+      recurse: yes
+
+  - name: download_file | copy file to node
+    copy:
+      src: "/data/{{ download.dest.split('/')[-1] }}"
+      dest: "{{ download.dest }}"
+  when: file_path.stat.exists == True
+
 - block:
   - name: download_file | Starting download of file
     debug:
@@ -105,3 +136,4 @@
 
   tags:
   - download
+  when: file_path.stat.exists == False

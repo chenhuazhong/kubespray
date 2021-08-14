@@ -17,7 +17,7 @@ docker_cli_versioned_pkg:
   '20.10': docker-ce-cli-20.10.5-3.el{{ ansible_distribution_major_version }}
 
 docker_package_info:
-  enablerepo: "docker-ce"
+  enablerepo: "docker-ce-stable"
   pkgs:
     - "{{ containerd_versioned_pkg[containerd_version | string] }}"
     - "{{ docker_cli_versioned_pkg[docker_cli_version | string] }}"

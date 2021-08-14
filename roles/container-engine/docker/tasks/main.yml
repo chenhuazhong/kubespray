@@ -82,14 +82,51 @@
     dest: "{{ yum_repo_dir }}/docker.repo"
   when: ansible_distribution == "Fedora" and not is_ostree
 
-- name: Configure docker repository on RedHat/CentOS/Oracle/AlmaLinux Linux
-  template:
-    src: "rh_docker.repo.j2"
-    dest: "{{ yum_repo_dir }}/docker-ce.repo"
-  when:
-    - ansible_os_family == "RedHat"
-    - ansible_distribution != "Fedora"
-    - not is_ostree
+#- name: Configure docker repository on RedHat/CentOS/Oracle/AlmaLinux Linux
+#  template:
+#    src: "rh_docker.repo.j2"
+#    dest: "{{ yum_repo_dir }}/docker-ce.repo"
+#  when:
+#    - ansible_os_family == "RedHat"
+#    - ansible_distribution != "Fedora"
+#    - not is_ostree
+
+#"""
+#sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+## Step 2: 添加软件源信息
+#sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+## Step 3
+#sudo sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo
+## Step 4: 更新并安装Docker-CE
+#sudo yum makecache fast
+#
+#"""
+
+# 配置 阿里云 docker.repo
+- block:
+  - name: install docker.repo from aliyun
+    debug:
+      msg: "install docker.repo from aliyun"
+
+  - name: step 1
+    yum:
+      name: "{{ item }}"
+      state: present
+
+    with_items:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+
+  # 添加软件源信息
+  - name:  step2
+    command: yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+
+  - name: step3
+    command: sed -i 's+download.docker.com+mirrors.aliyun.com/docker-ce+' /etc/yum.repos.d/docker-ce.repo
+
+  - name: step4
+    command: yum makecache fast
 
 - name: Remove dpkg hold
   dpkg_selections:
@@ -101,6 +138,10 @@
     - "{{ containerd_package }}"
     - docker-ce
     - docker-ce-cli
+
+- name: yum install docker-ce ....
+  debug:
+    msg: "yum install '{{ docker_package_info.pkgs }}'"
 
 - name: ensure docker packages are installed
   package:

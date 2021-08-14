@@ -20,7 +20,7 @@
 
 - name: isntall wget vim chrony net-tools
   yum:
-    name: ["wget","vim","chrony","net-tools"]
+    name: ["wget","vim","chrony","net-tools","sshpass"]
 
 - name: set chronyd config
   template:

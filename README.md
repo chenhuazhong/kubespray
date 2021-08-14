@@ -7,6 +7,14 @@
   * ansible: 2.9.20
   * 阿里云软件源
 
+#### 通过docker运行该项目
+```
+容器镜像：registry.cn-hangzhou.aliyuncs.com/chenhuazhong/localkube:v1
+使用方法和地址：https://github.com/chenhuazhong/localkube
+搭建 学习目的集群，安装 1.20.7版本的k8s集群，已经把所需文件本地化,镜像上传到阿里云
+
+```
+
 
 ![Kubernetes Logo](https://raw.githubusercontent.com/kubernetes-sigs/kubespray/master/docs/img/kubernetes-logo.png)
 
@@ -68,17 +76,7 @@ probably pointing on a task depending on a module present in requirements.txt.
 One way of solving this would be to uninstall the Ansible package and then, to install it via pip but it is not always possible.
 A workaround consists of setting `ANSIBLE_LIBRARY` and `ANSIBLE_MODULE_UTILS` environment variables respectively to the `ansible/modules` and `ansible/module_utils` subdirectories of pip packages installation location, which can be found in the Location field of the output of `pip show [package]` before executing `ansible-playbook`.
 
-A simple way to ensure you get all the correct version of Ansible is to use the [pre-built docker image from Quay](https://quay.io/repository/kubespray/kubespray?tab=tags).
-You will then need to use [bind mounts](https://docs.docker.com/storage/bind-mounts/) to get the inventory and ssh key into the container, like this:
 
-```ShellSession
-docker pull quay.io/kubespray/kubespray:v2.15.1
-docker run --rm -it --mount type=bind,source="$(pwd)"/inventory/sample,dst=/inventory \
-  --mount type=bind,source="${HOME}"/.ssh/id_rsa,dst=/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.15.1 bash
-# Inside the container you may now run the kubespray playbooks:
-ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_rsa cluster.yml
-```
 
 ### Vagrant
 

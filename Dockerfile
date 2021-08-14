@@ -4,7 +4,7 @@
 #/data/kubelet
 
 FROM registry.cn-hangzhou.aliyuncs.com/chenhuazhong/localkube:1.0
-
+RUN yum install -y vim wget net-tools
 WORKDIR /kubespray
 COPY . .
 

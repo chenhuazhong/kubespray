@@ -1,8 +1,8 @@
 ---
 ## Global Offline settings
 ### Private Container Image Registry
-# registry_host: "myprivateregisry.com"
-# files_repo: "http://myprivatehttpd"
+ registry_host: "registry.cn-hangzhou.aliyuncs.com/localkube"
+ files_repo: "http://192.168.179.128:8080"
 ### If using CentOS, RedHat, AlmaLinux or Fedora
 # yum_repo: "http://myinternalyumrepo"
 ### If using Debian
@@ -11,15 +11,15 @@
 # ubuntu_repo: "http://myinternalubunturepo"
 
 ## Container Registry overrides
-# kube_image_repo: "{{ registry_host }}"
-# gcr_image_repo: "{{ registry_host }}"
-# docker_image_repo: "{{ registry_host }}"
-# quay_image_repo: "{{ registry_host }}"
+ kube_image_repo: "{{ registry_host }}"
+ gcr_image_repo: "{{ registry_host }}"
+ docker_image_repo: "{{ registry_host }}"
+ quay_image_repo: "{{ registry_host }}"
 
 ## Kubernetes components
-# kubeadm_download_url: "{{ files_repo }}/kubernetes/{{ kube_version }}/kubeadm"
-# kubectl_download_url: "{{ files_repo }}/kubernetes/{{ kube_version }}/kubectl"
-# kubelet_download_url: "{{ files_repo }}/kubernetes/{{ kube_version }}/kubelet"
+ kubeadm_download_url: "{{ files_repo }}/kubeadm-v1.20.7-amd64"
+ kubectl_download_url: "{{ files_repo }}/kubectl-v1.20.7-amd64"
+ kubelet_download_url: "{{ files_repo }}/kubelet-v1.20.7-amd64"
 
 ## CNI Plugins
 # cni_download_url: "{{ files_repo }}/kubernetes/cni/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
